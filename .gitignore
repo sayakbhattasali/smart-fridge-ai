@@ -30,11 +30,27 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files - NEVER commit
+.env
+.env.local
+.env.*.local
+
+# Example env files (safe to commit)
+!.env.example
 
 # vercel
 .vercel
+
+# IDE configs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS files
+Thumbs.db
 
 # typescript
 *.tsbuildinfo
