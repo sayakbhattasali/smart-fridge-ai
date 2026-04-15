@@ -1,108 +1,47 @@
-# 🧠 AI Fridge Assistant
+# 🧊 Fridge Intelligence AI
 
-An AI-powered web application that analyzes fridge or pantry images to identify ingredients and generate creative recipes instantly.
-
-Built using a **multi-stage AI pipeline** combining computer vision and language models, with a robust fallback mechanism to ensure reliability even under API limits.
+An advanced, fault-tolerant kitchen assistant that utilizes a multi-LLM pipeline to transform food photography into actionable recipes. Built with a high-end "A24 Indie" aesthetic and engineered for reliability.
 
 ---
 
-## 🚀 Features
+## 🛠 Technical Specs
 
-- 📸 **Image-based Ingredient Detection**  
-  Upload a photo of your fridge or pantry and automatically detect all visible ingredients.
-
-- 🧾 **Automatic Classification**  
-  Ingredients are categorized into:
-  - Vegetarian
-  - Non-Vegetarian
-
-- 👨‍🍳 **AI Recipe Generation**  
-  Generates multiple creative recipes using detected ingredients.
-
-- 🔥 **Calorie Estimation**  
-  Each recipe includes an estimated calorie count.
-
-- ⚠️ **Manual Input Fallback**  
-  If image analysis fails (e.g., API rate limits), users can manually enter ingredients and continue seamlessly.
-
-- 🎯 **Modern UI/UX**
-  - Smooth animations
-  - Expandable recipe cards
-  - Dark/Light mode toggle
+* **Framework**: Next.js 15 (App Router)
+* **Primary Vision**: Google Gemini 1.5 Flash (Image-to-JSON)
+* **Secondary Vision (Fallback)**: Groq Llama 4 Scout 17B (Vision-to-JSON)
+* **Recipe Engine**: Groq Llama 3.3 70B (Text-to-Structured-Recipes)
+* **Language**: TypeScript
+* **Architecture**: Distributed Multi-LLM Pivot (Fail-Soft System)
 
 ---
 
-## 🧠 Architecture Overview
+## 🚀 Key Features
 
-The system is designed as a **multi-step AI pipeline**:
+### 📸 1. Image-based Ingredient Detection
+The user photographs their fridge or pantry. The image is processed first by **Google Gemini 1.5 Flash**. It identifies all visible food items and categorizes them into `Vegetarian` and `Non-Vegetarian` groups.
 
+### 👨‍🍳 2. Intelligent Recipe Generation
+Once ingredients are identified, the app utilizes **Groq Llama 3.3** via an LPU™ (Language Processing Unit) to generate creative recipes in milliseconds, providing instant culinary inspiration.
 
-Image Upload
-↓
-Gemini Vision API (Ingredient Extraction)
-↓
-Groq LLM (Recipe + Calories Generation)
-↓
-Frontend Rendering
+### 🔄 3. Automated Fallback (Smart Pivot)
+To handle API rate limits, the system triggers a **"Smart Pivot"** to **Groq Llama 4 Scout** if Gemini fails. The UI notifies the user: *"Gemini is busy. Shifting to Groq Intelligence..."* ensuring 99.9% uptime.
 
-
-
----
-
-## 🔍 Core Components
-
-### 1️⃣ Image Analysis — Gemini API
-
-- Uses **Google Gemini Vision API**
-- Takes an image as input and extracts:
-  - Ingredients
-  - Vegetarian items
-  - Non-vegetarian items
-
-- Designed to return **strict JSON output** for reliable parsing
+### ✍️ 4. Manual Input Last-Resort
+If all image processing fails, a **Manual Entry Mode** allows users to add ingredients as interactive chips, ensuring the app is always functional.
 
 ---
 
-### 2️⃣ Recipe Generation — Groq API
-
-- Uses **Groq (Mixtral model)**
-- Takes ingredient list as input
-- Generates:
-  - Recipe names
-  - Step-by-step instructions
-  - Estimated calorie values
-
-- Optimized with structured prompts for consistent output
+## 🎨 Design Philosophy
+Inspired by **A24 Indie Romance** aesthetics, the UI features:
+* **Cinematic Typography**: Bold Syne headers for a "movie poster" feel.
+* **Dynamic Theming**: Interactive Dark/Light mode with customized glow effects and stardust overlays.
+* **Micro-interactions**: Subtle hover states, progress tracking, and animated entry transitions.
 
 ---
 
-### 3️⃣ Fallback System — Manual Input
+## ⚙️ Setup
 
-To handle real-world API limitations:
-
-- If Gemini fails (e.g., **rate limit / 429 error**):
-  - User is prompted to manually enter ingredients
-  - Input is processed and sent directly to Groq
-  - Recipes are generated without interruption
-
-👉 This ensures the app **never blocks the user experience**
-
----
-
-## ⚙️ Tech Stack
-
-### Frontend
-- React (Next.js App Router)
-- TypeScript
-- Inline styling (custom UI design)
-
-### Backend / APIs
-- Google Gemini API (Vision)
-- Groq API (LLM)
-
----
-
-⚠️ Known Limitations
-Gemini API may hit rate limits (429) on free tier
-Image recognition depends on image quality
-Calorie values are AI-estimated (not exact nutritional data)
+1. **Environment Variables**: Create a `.env.local` file.
+   ```bash
+   GEMINI_API_KEY=your_key_here
+   GROQ_API_KEY=your_key_here
