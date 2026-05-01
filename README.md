@@ -1,4 +1,4 @@
-# 🧊 Fridge Intelligence AI
+# 🧊 Smart Fridge AI
 
 An advanced, fault-tolerant kitchen assistant that utilizes a multi-LLM pipeline to transform food photography into actionable recipes. Designed with a high-end "A24 Indie" aesthetic and built for performance and reliability.
 
