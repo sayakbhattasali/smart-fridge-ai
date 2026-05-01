@@ -329,6 +329,25 @@ export default function Home() {
   0% { background-position: -200% center; }
   100% { background-position: 200% center; }
 }
+        .stats-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        .stats-grid .stats-row-bottom {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+        @media (min-width: 600px) {
+          .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+          }
+          .stats-grid .stats-row-bottom {
+            display: contents;
+          }
+        }
       `}</style>
 
       {/* Full-width root */}
@@ -337,10 +356,10 @@ export default function Home() {
         <div
           style={{
             width: "100%",
-            maxWidth: hasResults ? 1120 : 640,
+            maxWidth: hasResults ? "1200px" : "700px",
             marginLeft: "auto",
             marginRight: "auto",
-            padding: "52px 24px 64px",
+            padding: "clamp(32px, 6vw, 64px) clamp(16px, 4vw, 32px)",
             transition: "max-width 0.4s ease",
           }}
         >
@@ -469,7 +488,7 @@ export default function Home() {
                   lineHeight: 1.05,
                   color: colors.text,
                   letterSpacing: "-0.02em",
-                  textAlign: "left",
+                  textAlign: "center",
                   textShadow: darkMode
                     ? "0 10px 40px rgba(0,0,0,0.6)"
                     : "0 10px 30px rgba(0,0,0,0.15)",
@@ -477,8 +496,7 @@ export default function Home() {
               >
                 <div style={{ display: "flex", flexDirection: "column", width: "100%", maxWidth: "600px", margin: "0 auto" }}>
 
-                  <div style={{ textAlign: "left", whiteSpace: "nowrap", fontSize: "0.85em" }}>
-
+                  <div style={{ textAlign: "center", whiteSpace: "normal", fontSize: "0.9em" }}>
                     Your{" "}
 
                     <span
@@ -493,14 +511,14 @@ export default function Home() {
                         animation: "shineText 3s linear infinite"
                       }}
                     >
-                      Fridge
+                      Smart
 
 
                     </span>
 
                   </div>
 
-                  <div style={{ textAlign: "right", whiteSpace: "nowrap", fontSize: "0.7em" }}><span style={{ color: COLORS.amber }}>Just</span> Got Smarter</div>
+                  <div style={{ textAlign: "center", whiteSpace: "normal", fontSize: "0.75em" }}><span style={{ color: COLORS.amber }}>Kitchen</span> Assistant</div>
                 </div>
               </h1>
               <p
@@ -526,7 +544,9 @@ export default function Home() {
           < div
             style={{
               display: "grid",
-              gridTemplateColumns: hasResults ? "minmax(290px, 400px) 1fr" : "1fr",
+              gridTemplateColumns: hasResults
+                ? "repeat(auto-fit, minmax(300px, 1fr))"
+                : "1fr",
               gap: 24,
               alignItems: "start",
             }
@@ -1190,32 +1210,45 @@ export default function Home() {
                     result.veg ||
                     result.nonVeg) && (
                       <div
+                        className="stats-grid"
                         style={{
-                          display: "grid",
-                          gridTemplateColumns: "repeat(3,1fr)",
-                          gap: 10,
                           animation: "fadein 0.4s ease both",
                         }}
                       >
-                        {[
-                          {
-                            label: "Total Items",
-                            count: result.ingredients?.length ?? 0,
-                            color: colors.text,
-                          },
-                          {
-                            label: "Vegetarian",
-                            count: result.veg?.length ?? 0,
-                            color: COLORS.emerald,
-                          },
-                          {
-                            label: "Non-Veg",
-                            count: result.nonVeg?.length ?? 0,
-                            color: COLORS.rose,
-                          },
-                        ].map((s) => (
+                        {/* Total Items — full width on mobile, first column on desktop */}
+                        <div
+                          style={{
+                            background: colors.surface,
+                            border: `1px solid ${colors.border}`,
+                            borderRadius: 16,
+                            padding: "16px 10px",
+                            textAlign: "center",
+                          }}
+                        >
                           <div
-                            key={s.label}
+                            style={{
+                              fontFamily: "'Syne', sans-serif",
+                              fontSize: 34,
+                              fontWeight: 800,
+                              color: colors.text,
+                              lineHeight: 1,
+                            }}
+                          >
+                            {result.ingredients?.length ?? 0}
+                          </div>
+                          <div
+                            style={{
+                              fontSize: 11,
+                              color: colors.textMuted,
+                              marginTop: 6,
+                            }}
+                          >
+                            Total Items
+                          </div>
+                        </div>
+                        {/* Vegetarian + Non-Veg — side-by-side on both mobile & desktop */}
+                        <div className="stats-row-bottom">
+                          <div
                             style={{
                               background: colors.surface,
                               border: `1px solid ${colors.border}`,
@@ -1229,11 +1262,11 @@ export default function Home() {
                                 fontFamily: "'Syne', sans-serif",
                                 fontSize: 34,
                                 fontWeight: 800,
-                                color: s.color,
+                                color: COLORS.emerald,
                                 lineHeight: 1,
                               }}
                             >
-                              {s.count}
+                              {result.veg?.length ?? 0}
                             </div>
                             <div
                               style={{
@@ -1242,10 +1275,40 @@ export default function Home() {
                                 marginTop: 6,
                               }}
                             >
-                              {s.label}
+                              Vegetarian
                             </div>
                           </div>
-                        ))}
+                          <div
+                            style={{
+                              background: colors.surface,
+                              border: `1px solid ${colors.border}`,
+                              borderRadius: 16,
+                              padding: "16px 10px",
+                              textAlign: "center",
+                            }}
+                          >
+                            <div
+                              style={{
+                                fontFamily: "'Syne', sans-serif",
+                                fontSize: 34,
+                                fontWeight: 800,
+                                color: COLORS.rose,
+                                lineHeight: 1,
+                              }}
+                            >
+                              {result.nonVeg?.length ?? 0}
+                            </div>
+                            <div
+                              style={{
+                                fontSize: 11,
+                                color: colors.textMuted,
+                                marginTop: 6,
+                              }}
+                            >
+                              Non-Veg
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     )}
 
@@ -1266,7 +1329,7 @@ export default function Home() {
                       <div
                         style={{
                           display: "grid",
-                          gridTemplateColumns: "1fr 1fr",
+                          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
                           gap: 12,
                         }}
                       >
